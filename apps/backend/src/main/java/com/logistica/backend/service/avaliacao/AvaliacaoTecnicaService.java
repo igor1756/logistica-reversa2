@@ -69,12 +69,11 @@ public class AvaliacaoTecnicaService {
         StatusEquipamento status = equipamento.getStatusAtual();
 
         boolean statusValido = status == StatusEquipamento.RECOLHIMENTO_SOLICITADO
-                || status == StatusEquipamento.RECOLHIDO;
+                || status == StatusEquipamento.AVALIADO;
 
         if (!statusValido) {
             throw new IllegalStateException(
-                    "O equipamento não está em status compatível para avaliação técnica."
-            );
+                    "O equipamento não está em status compatível para avaliação técnica.");
         }
     }
 

@@ -43,7 +43,7 @@ public class EquipamentoService {
     }
 
     public List<EquipamentoResponse> listarTodos() {
-        return equipamentoRepository.findAll()
+        return equipamentoRepository.findAllByOrderByNumUniversalAsc()
                 .stream()
                 .map(this::toResponse)
                 .toList();

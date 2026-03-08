@@ -13,6 +13,8 @@ function formatarStatus(status: string) {
       return 'Pendente'
     case 'CANCELADA':
       return 'Cancelada'
+    case 'CONCLUIDA':
+      return 'Concluída'
     default:
       return status
   }

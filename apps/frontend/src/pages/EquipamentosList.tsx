@@ -77,6 +77,14 @@ export default function EquipamentosList() {
     void carregarEquipamentos()
   }, [])
 
+  const podeSolicitarRecolhimento = (status: string) => status === 'EM_USO'
+
+  const podeAvaliar = (status: string) =>
+    status === 'RECOLHIMENTO_SOLICITADO' || status === 'AVALIADO'
+
+  const podeVerAvaliacoes = (status: string) =>
+    status === 'AVALIADO'
+
   return (
     <div className="min-h-screen p-6">
       <div className="mb-6 flex items-center justify-between gap-4">
@@ -171,20 +179,44 @@ export default function EquipamentosList() {
                     {formatarStatus(equipamento.statusAtual)}
                   </td>
                   <td className="px-4 py-3">
-                    {equipamento.statusAtual === 'EM_USO' ? (
-                      <button
-                        type="button"
-                        onClick={() => void handleSolicitarRecolhimento(equipamento.id)}
-                        disabled={processandoId === equipamento.id}
-                        className="rounded bg-amber-600 px-3 py-2 text-sm text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50"
-                      >
-                        {processandoId === equipamento.id
-                          ? 'Solicitando...'
-                          : 'Solicitar recolhimento'}
-                      </button>
-                    ) : (
-                      <span className="text-sm text-gray-400">-</span>
-                    )}
+                    <div className="flex flex-wrap gap-2">
+                      {podeSolicitarRecolhimento(equipamento.statusAtual) && (
+                        <button
+                          type="button"
+                          onClick={() => void handleSolicitarRecolhimento(equipamento.id)}
+                          disabled={processandoId === equipamento.id}
+                          className="rounded bg-amber-600 px-3 py-2 text-sm text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          {processandoId === equipamento.id
+                            ? 'Solicitando...'
+                            : 'Solicitar recolhimento'}
+                        </button>
+                      )}
+
+                      {podeAvaliar(equipamento.statusAtual) && (
+                        <Link
+                          to={`/equipamentos/${equipamento.id}/avaliar`}
+                          className="rounded bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700"
+                        >
+                          Avaliar
+                        </Link>
+                      )}
+
+                      {podeVerAvaliacoes(equipamento.statusAtual) && (
+                        <Link
+                          to={`/equipamentos/${equipamento.id}/avaliacoes`}
+                          className="rounded border px-3 py-2 text-sm hover:bg-gray-100"
+                        >
+                          Ver avaliações
+                        </Link>
+                      )}
+
+                      {!podeSolicitarRecolhimento(equipamento.statusAtual) &&
+                        !podeAvaliar(equipamento.statusAtual) &&
+                        !podeVerAvaliacoes(equipamento.statusAtual) && (
+                          <span className="text-sm text-gray-400">-</span>
+                        )}
+                    </div>
                   </td>
                 </tr>
               ))}

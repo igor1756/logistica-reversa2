@@ -5,6 +5,8 @@ import EquipamentosList from './pages/EquipamentosList'
 import EquipamentoForm from './pages/EquipamentoForm'
 import ProtectedRoute from './routes/ProtectedRoute'
 import RecolhimentosList from './pages/RecolhimentosList'
+import { AvaliacoesList } from './pages/AvaliacoesList'
+import AvaliacaoForm from './pages/AvaliacaoForm'
 
 export default function App() {
   return (
@@ -43,6 +45,22 @@ export default function App() {
           element={
             <ProtectedRoute>
               <RecolhimentosList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/equipamentos/:equipamentoId/avaliacoes"
+          element={
+            <ProtectedRoute>
+              <AvaliacoesList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/equipamentos/:equipamentoId/avaliar"
+          element={
+            <ProtectedRoute>
+              <AvaliacaoForm />
             </ProtectedRoute>
           }
         />
