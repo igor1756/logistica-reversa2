@@ -1,27 +1,45 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthProvider";
-import { Login } from "./pages/Login";
-import { Dashboard } from "./pages/Dashboard";
-import { ProtectedRoute } from "./routes/ProtectedRoute";
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { Login } from './pages/Login'
+import Dashboard from './pages/Dashboard'
+import EquipamentosList from './pages/EquipamentosList'
+import EquipamentoForm from './pages/EquipamentoForm'
+import ProtectedRoute from './routes/ProtectedRoute'
 
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
-  );
-}
+      <Routes>
+        <Route path="/login" element={<Login />} />
 
-export default App;
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/equipamentos"
+          element={
+            <ProtectedRoute>
+              <EquipamentosList />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/equipamentos/novo"
+          element={
+            <ProtectedRoute>
+              <EquipamentoForm />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
