@@ -23,6 +23,13 @@ export default function Dashboard() {
           Cadastrar equipamento
         </Link>
 
+        <Link
+          to="/recolhimentos"
+          className="rounded border px-4 py-2 hover:bg-gray-100"
+        >
+          Solicitações de recolhimento
+        </Link>
+        
         <button
           onClick={logout}
           className="w-fit rounded border px-4 py-2 hover:bg-gray-100"

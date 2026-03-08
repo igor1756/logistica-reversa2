@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard'
 import EquipamentosList from './pages/EquipamentosList'
 import EquipamentoForm from './pages/EquipamentoForm'
 import ProtectedRoute from './routes/ProtectedRoute'
+import RecolhimentosList from './pages/RecolhimentosList'
 
 export default function App() {
   return (
@@ -37,7 +38,14 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/recolhimentos"
+          element={
+            <ProtectedRoute>
+              <RecolhimentosList />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

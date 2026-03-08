@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { listarEquipamentos, type EquipamentoResponse } from '../services/equipamentos'
+import { solicitarRecolhimento } from '../services/recolhimentos'
+import axios from 'axios'
 
 function formatarStatus(status: string) {
   switch (status) {
@@ -25,22 +27,53 @@ export default function EquipamentosList() {
   const [equipamentos, setEquipamentos] = useState<EquipamentoResponse[]>([])
   const [loading, setLoading] = useState(true)
   const [erro, setErro] = useState('')
+  const [mensagem, setMensagem] = useState('')
+  const [processandoId, setProcessandoId] = useState<string | null>(null)
+
+  async function carregarEquipamentos() {
+    try {
+      setLoading(true)
+      setErro('')
+      const data = await listarEquipamentos()
+      setEquipamentos(data)
+    } catch (error) {
+      console.error('Erro ao carregar equipamentos:', error)
+      setErro('Não foi possível carregar os equipamentos.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function handleSolicitarRecolhimento(equipamentoId: string) {
+    try {
+      setErro('')
+      setMensagem('')
+      setProcessandoId(equipamentoId)
+
+      await solicitarRecolhimento({ equipamentoId })
+
+      setMensagem('Solicitação de recolhimento realizada com sucesso.')
+      await carregarEquipamentos()
+    } catch (error: unknown) {
+      console.error('Erro ao solicitar recolhimento:', error)
+
+      let mensagemErro = 'Não foi possível solicitar o recolhimento.'
+
+      if (axios.isAxiosError(error)) {
+        const message = error.response?.data?.message
+
+        if (typeof message === 'string' && message.trim() !== '') {
+          mensagemErro = message
+        }
+      }
+
+      setErro(mensagemErro)
+    } finally {
+      setProcessandoId(null)
+    }
+  }
 
   useEffect(() => {
-    async function carregarEquipamentos() {
-      try {
-        setLoading(true)
-        setErro('')
-        const data = await listarEquipamentos()
-        setEquipamentos(data)
-      } catch (error) {
-        console.error('Erro ao carregar equipamentos:', error)
-        setErro('Não foi possível carregar os equipamentos.')
-      } finally {
-        setLoading(false)
-      }
-    }
-
     void carregarEquipamentos()
   }, [])
 
@@ -68,6 +101,12 @@ export default function EquipamentosList() {
           >
             Novo equipamento
           </Link>
+          <Link
+            to="/recolhimentos"
+            className="rounded border px-4 py-2 hover:bg-gray-100"
+          >
+            Ver solicitações de recolhimento
+          </Link>
         </div>
       </div>
 
@@ -78,6 +117,12 @@ export default function EquipamentosList() {
       {!loading && erro && (
         <div className="rounded border border-red-300 bg-red-50 p-4 text-red-700">
           {erro}
+        </div>
+      )}
+
+      {!loading && mensagem && (
+        <div className="rounded border border-green-300 bg-green-50 p-4 text-green-700">
+          {mensagem}
         </div>
       )}
 
@@ -101,6 +146,7 @@ export default function EquipamentosList() {
                 <th className="px-4 py-3">Valor</th>
                 <th className="px-4 py-3">Responsável</th>
                 <th className="px-4 py-3">Status</th>
+                <th className="px-4 py-3">Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -123,6 +169,22 @@ export default function EquipamentosList() {
                   </td>
                   <td className="px-4 py-3">
                     {formatarStatus(equipamento.statusAtual)}
+                  </td>
+                  <td className="px-4 py-3">
+                    {equipamento.statusAtual === 'EM_USO' ? (
+                      <button
+                        type="button"
+                        onClick={() => void handleSolicitarRecolhimento(equipamento.id)}
+                        disabled={processandoId === equipamento.id}
+                        className="rounded bg-amber-600 px-3 py-2 text-sm text-white hover:bg-amber-700 disabled:cursor-not-allowed disabled:opacity-50"
+                      >
+                        {processandoId === equipamento.id
+                          ? 'Solicitando...'
+                          : 'Solicitar recolhimento'}
+                      </button>
+                    ) : (
+                      <span className="text-sm text-gray-400">-</span>
+                    )}
                   </td>
                 </tr>
               ))}
