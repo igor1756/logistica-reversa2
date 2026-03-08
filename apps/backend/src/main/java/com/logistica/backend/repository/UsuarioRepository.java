@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
 
     Optional<Usuario> findByMatricula(String matricula);
+
+    boolean existsByMatricula(String matricula);
 }
