@@ -2,6 +2,25 @@ import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { listarEquipamentos, type EquipamentoResponse } from '../services/equipamentos'
 
+function formatarStatus(status: string) {
+  switch (status) {
+    case 'EM_USO':
+      return 'Em uso'
+    case 'RECOLHIMENTO_SOLICITADO':
+      return 'Recolhimento solicitado'
+    case 'RECOLHIDO':
+      return 'Recolhido'
+    case 'AVALIADO':
+      return 'Avaliado'
+    case 'RECICLADO':
+      return 'Reciclado'
+    case 'REUTILIZADO':
+      return 'Reutilizado'
+    default:
+      return status
+  }
+}
+
 export default function EquipamentosList() {
   const [equipamentos, setEquipamentos] = useState<EquipamentoResponse[]>([])
   const [loading, setLoading] = useState(true)
@@ -22,7 +41,7 @@ export default function EquipamentosList() {
       }
     }
 
-    carregarEquipamentos()
+    void carregarEquipamentos()
   }, [])
 
   return (
@@ -35,12 +54,21 @@ export default function EquipamentosList() {
           </p>
         </div>
 
-        <Link
-          to="/equipamentos/novo"
-          className="rounded border px-4 py-2 hover:bg-gray-100"
-        >
-          Novo equipamento
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            to="/"
+            className="rounded border px-4 py-2 hover:bg-gray-100"
+          >
+            Voltar ao dashboard
+          </Link>
+
+          <Link
+            to="/equipamentos/novo"
+            className="rounded border px-4 py-2 hover:bg-gray-100"
+          >
+            Novo equipamento
+          </Link>
+        </div>
       </div>
 
       {loading && (
@@ -80,9 +108,7 @@ export default function EquipamentosList() {
                 <tr key={equipamento.id} className="border-b last:border-b-0">
                   <td className="px-4 py-3">{equipamento.numUniversal}</td>
                   <td className="px-4 py-3">{equipamento.modelo}</td>
-                  <td className="px-4 py-3">
-                    {equipamento.descricao || '-'}
-                  </td>
+                  <td className="px-4 py-3">{equipamento.descricao || '-'}</td>
                   <td className="px-4 py-3">
                     {new Date(equipamento.dataAquisicao).toLocaleDateString('pt-BR')}
                   </td>
@@ -95,7 +121,9 @@ export default function EquipamentosList() {
                   <td className="px-4 py-3">
                     {equipamento.nomeUsuario || 'Sem responsável'}
                   </td>
-                  <td className="px-4 py-3">{equipamento.statusAtual}</td>
+                  <td className="px-4 py-3">
+                    {formatarStatus(equipamento.statusAtual)}
+                  </td>
                 </tr>
               ))}
             </tbody>
