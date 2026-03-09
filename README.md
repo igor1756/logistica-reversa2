@@ -211,6 +211,57 @@ Database
 
 ### Principais pacotes
 
+
+
+---
+
+## Autenticação
+
+O sistema já possui autenticação com:
+
+* JWT
+* Spring Security
+* login funcional
+* contexto autenticado no frontend
+* rotas protegidas
+
+### Fluxo de autenticação
+
+```text
+Frontend → /auth/login → Backend → JWT → token salvo no frontend → acesso protegido
+```
+
+---
+
+## Domínio implementado
+
+### Entidades principais
+
+* `Usuario`
+* `Equipamento`
+* `SolicitacaoRecolhimento`
+* `AvaliacaoTecnica`
+* `HistoricoStatus`
+
+### Relacionamentos principais
+
+* `Usuario` 1:N `Equipamento`
+* `Equipamento` 1:N `SolicitacaoRecolhimento`
+* `Equipamento` 1:N `AvaliacaoTecnica`
+* `Equipamento` 1:N `HistoricoStatus`
+
+### Observações importantes do domínio
+
+* o vínculo de `Equipamento` com `Usuario` é opcional
+* a regra de “apenas uma solicitação pendente por equipamento” é tratada na camada de serviço
+* o sistema utiliza `statusAtual` em `Equipamento` como fonte oficial do estado do equipamento
+
+---
+
+## Estrutura de diretórios
+
+### Backend
+
 ```text
 com.logistica.backend
 ├── BackendApplication.java
@@ -273,59 +324,7 @@ com.logistica.backend
     │   └── SolicitacaoRecolhimentoService.java
     └── usuario
         └── CustomUserDetailsService.java
-```
 
----
-
-## Autenticação
-
-O sistema já possui autenticação com:
-
-* JWT
-* Spring Security
-* login funcional
-* contexto autenticado no frontend
-* rotas protegidas
-
-### Fluxo de autenticação
-
-```text
-Frontend → /auth/login → Backend → JWT → token salvo no frontend → acesso protegido
-```
-
----
-
-## Domínio implementado
-
-### Entidades principais
-
-* `Usuario`
-* `Equipamento`
-* `SolicitacaoRecolhimento`
-* `AvaliacaoTecnica`
-* `HistoricoStatus`
-
-### Relacionamentos principais
-
-* `Usuario` 1:N `Equipamento`
-* `Equipamento` 1:N `SolicitacaoRecolhimento`
-* `Equipamento` 1:N `AvaliacaoTecnica`
-* `Equipamento` 1:N `HistoricoStatus`
-
-### Observações importantes do domínio
-
-* o vínculo de `Equipamento` com `Usuario` é opcional
-* a regra de “apenas uma solicitação pendente por equipamento” é tratada na camada de serviço
-* o sistema utiliza `statusAtual` em `Equipamento` como fonte oficial do estado do equipamento
-
----
-
-## Estrutura de diretórios
-
-### Backend
-
-```text
-apps/backend
 ```
 
 ### Frontend
