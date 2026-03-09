@@ -209,10 +209,6 @@ Repository
 Database
 ```
 
-### Principais pacotes
-
-
-
 ---
 
 ## Autenticação
