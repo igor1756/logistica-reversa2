@@ -97,7 +97,28 @@ public class EquipamentoService {
                 equipamento.getValorAquisicao(),
                 equipamento.getUsuario() != null ? equipamento.getUsuario().getId() : null,
                 equipamento.getUsuario() != null ? equipamento.getUsuario().getNome() : null,
-                equipamento.getStatusAtual()
-        );
+                equipamento.getStatusAtual());
+    }
+
+    public List<EquipamentoResponse> listarMeusEquipamentos(UUID usuarioId) {
+        return equipamentoRepository.findByUsuarioId(usuarioId)
+                .stream()
+                .map(this::toResponseDto)
+                .toList();
+    }
+
+
+
+    private EquipamentoResponse toResponseDto(Equipamento equipamento) {
+        return new EquipamentoResponse(
+                equipamento.getId(),
+                equipamento.getNumUniversal(),
+                equipamento.getModelo(),
+                equipamento.getDescricao(),
+                equipamento.getDataAquisicao(),
+                equipamento.getValorAquisicao(),
+                equipamento.getUsuario() != null ? equipamento.getUsuario().getId() : null,
+                equipamento.getUsuario() != null ? equipamento.getUsuario().getNome() : null,
+                equipamento.getStatusAtual());
     }
 }

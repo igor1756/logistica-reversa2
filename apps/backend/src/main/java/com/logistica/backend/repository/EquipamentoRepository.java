@@ -15,4 +15,6 @@ public interface EquipamentoRepository extends JpaRepository<Equipamento, UUID> 
     Optional<Equipamento> findByNumUniversal(String numUniversal);
 
     List<Equipamento> findAllByOrderByNumUniversalAsc();
+
+    List<Equipamento> findByUsuarioId(UUID usuarioId);
 }
