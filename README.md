@@ -1,6 +1,4 @@
-Claro — abaixo está uma versão mais organizada, limpa e profissional do seu `README.md`, mantendo o conteúdo que você trouxe, mas com melhor estrutura, padronização e legibilidade para GitHub.
 
-````md
 # Logística Reversa de Equipamentos Corporativos
 
 Sistema web para gestão do ciclo de vida de equipamentos de informática em ambiente corporativo, com foco em **recolhimento**, **avaliação técnica**, **destinação final** e **rastreabilidade do processo**.
