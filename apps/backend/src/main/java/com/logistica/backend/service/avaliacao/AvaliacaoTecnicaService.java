@@ -5,9 +5,11 @@ import com.logistica.backend.controller.avaliacao.dto.AvaliacaoTecnicaResponse;
 import com.logistica.backend.domain.avaliacao.AvaliacaoTecnica;
 import com.logistica.backend.domain.equipamento.Equipamento;
 import com.logistica.backend.domain.equipamento.StatusEquipamento;
+import com.logistica.backend.domain.recolhimento.StatusSolicitacaoRecolhimento;
 import com.logistica.backend.domain.usuario.Usuario;
 import com.logistica.backend.repository.AvaliacaoTecnicaRepository;
 import com.logistica.backend.repository.EquipamentoRepository;
+import com.logistica.backend.repository.SolicitacaoRecolhimentoRepository;
 import com.logistica.backend.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import com.logistica.backend.service.destinacao.DestinacaoService;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +28,8 @@ public class AvaliacaoTecnicaService {
     private final AvaliacaoTecnicaRepository avaliacaoTecnicaRepository;
     private final EquipamentoRepository equipamentoRepository;
     private final UsuarioRepository usuarioRepository;
+    private final DestinacaoService destinacaoService;
+    private final SolicitacaoRecolhimentoRepository solicitacaoRecolhimentoRepository;
 
     @Transactional
     public AvaliacaoTecnicaResponse criar(AvaliacaoTecnicaRequest request, String matriculaUsuarioAutenticado) {
@@ -48,8 +53,11 @@ public class AvaliacaoTecnicaService {
 
         AvaliacaoTecnica salva = avaliacaoTecnicaRepository.save(avaliacao);
 
+        concluirSolicitacaoPendenteSeExistir(equipamento);
         equipamento.setStatusAtual(StatusEquipamento.AVALIADO);
-        equipamentoRepository.save(equipamento);
+        Equipamento equipamentoAtualizado = equipamentoRepository.save(equipamento);
+
+        destinacaoService.aplicarDestinacao(equipamentoAtualizado, tecnico);
 
         return toResponse(salva);
     }
@@ -108,5 +116,14 @@ public class AvaliacaoTecnicaService {
                 .ehRecuperavel(avaliacao.getEhRecuperavel())
                 .descricao(avaliacao.getDescricao())
                 .build();
+    }
+
+    private void concluirSolicitacaoPendenteSeExistir(Equipamento equipamento) {
+        solicitacaoRecolhimentoRepository
+                .findByEquipamentoAndStatus(equipamento, StatusSolicitacaoRecolhimento.PENDENTE)
+                .ifPresent(solicitacao -> {
+                    solicitacao.setStatus(StatusSolicitacaoRecolhimento.CONCLUIDA);
+                    solicitacaoRecolhimentoRepository.save(solicitacao);
+                });
     }
 }

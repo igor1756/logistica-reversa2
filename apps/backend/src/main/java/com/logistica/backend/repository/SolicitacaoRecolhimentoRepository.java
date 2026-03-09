@@ -19,4 +19,8 @@ public interface SolicitacaoRecolhimentoRepository extends JpaRepository<Solicit
     Optional<SolicitacaoRecolhimento> findFirstByEquipamentoAndStatusOrderByDataSolicitacaoDesc(
             Equipamento equipamento,
             StatusSolicitacaoRecolhimento status);
+
+    Optional<SolicitacaoRecolhimento> findByEquipamentoAndStatus(
+            Equipamento equipamento,
+            StatusSolicitacaoRecolhimento status);
 }

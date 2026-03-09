@@ -14,10 +14,14 @@ function formatarStatus(status: string) {
       return 'Recolhido'
     case 'AVALIADO':
       return 'Avaliado'
-    case 'RECICLADO':
-      return 'Reciclado'
-    case 'REUTILIZADO':
-      return 'Reutilizado'
+    case 'DESTINADO_VENDA':
+      return 'Destinado à venda'
+    case 'DESTINADO_DOACAO':
+      return 'Destinado à doação'
+    case 'DESTINADO_SUPORTE':
+      return 'Destinado ao suporte'
+    case 'DESTINADO_RECICLAGEM':
+      return 'Destinado à reciclagem'
     default:
       return status
   }
@@ -83,7 +87,12 @@ export default function EquipamentosList() {
     status === 'RECOLHIMENTO_SOLICITADO' || status === 'AVALIADO'
 
   const podeVerAvaliacoes = (status: string) =>
-    status === 'AVALIADO'
+    status === 'AVALIADO' ||
+    status === 'DESTINADO_VENDA' ||
+    status === 'DESTINADO_DOACAO' ||
+    status === 'DESTINADO_SUPORTE' ||
+    status === 'DESTINADO_RECICLAGEM'
+
 
   return (
     <div className="min-h-screen p-6">
@@ -210,12 +219,13 @@ export default function EquipamentosList() {
                           Ver avaliações
                         </Link>
                       )}
-
-                      {!podeSolicitarRecolhimento(equipamento.statusAtual) &&
-                        !podeAvaliar(equipamento.statusAtual) &&
-                        !podeVerAvaliacoes(equipamento.statusAtual) && (
-                          <span className="text-sm text-gray-400">-</span>
-                        )}
+                      
+                      <Link
+                        to={`/equipamentos/${equipamento.id}/historico`}
+                        className="rounded-lg bg-slate-600 px-3 py-2 text-sm font-medium text-white hover:bg-slate-700"
+                      >
+                        Ver histórico
+                      </Link>
                     </div>
                   </td>
                 </tr>
