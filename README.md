@@ -1,31 +1,37 @@
-
-# Logística Reversa de Equipamentos Corporativos
+````markdown
+# ♻️ Logística Reversa de Equipamentos Corporativos
 
 Sistema web para gestão do ciclo de vida de equipamentos de informática em ambiente corporativo, com foco em **recolhimento**, **avaliação técnica**, **destinação final** e **rastreabilidade do processo**.
 
 ---
 
-## Sumário
+## 📑 Sumário
 
-- [Visão Geral](#visão-geral)
-- [Problema que o projeto busca resolver](#problema-que-o-projeto-busca-resolver)
-- [Solução proposta](#solução-proposta)
-- [Fluxo principal](#fluxo-principal)
-- [Funcionalidades implementadas](#funcionalidades-implementadas)
-- [Regras de negócio implementadas](#regras-de-negócio-implementadas)
-- [Status do equipamento](#status-do-equipamento)
-- [Arquitetura do projeto](#arquitetura-do-projeto)
-- [Stack tecnológica](#stack-tecnológica)
-- [Arquitetura do backend](#arquitetura-do-backend)
-- [Autenticação](#autenticação)
-- [Domínio implementado](#domínio-implementado)
-- [Estrutura de diretórios](#estrutura-de-diretórios)
+- [📌 Sobre o projeto](#-sobre-o-projeto)
+- [🚨 Problema que o projeto busca resolver](#-problema-que-o-projeto-busca-resolver)
+- [✅ Solução proposta](#-solução-proposta)
+- [🧩 Funcionalidades implementadas](#-funcionalidades-implementadas)
+- [📐 Regras de negócio implementadas](#-regras-de-negócio-implementadas)
+- [🔄 Status do equipamento](#-status-do-equipamento)
+- [🏗️ Arquitetura do projeto](#️-arquitetura-do-projeto)
+- [🛠️ Stack tecnológica](#️-stack-tecnológica)
+- [📂 Estrutura principal do backend](#-estrutura-principal-do-backend)
+- [💻 Estrutura principal do frontend](#-estrutura-principal-do-frontend)
+- [⚙️ Configuração do ambiente](#️-configuração-do-ambiente)
+- [▶️ Como executar o projeto](#️-como-executar-o-projeto)
+- [🧪 Fluxo básico para testar o sistema](#-fluxo-básico-para-testar-o-sistema)
+- [🌟 Pontos de destaque do MVP](#-pontos-de-destaque-do-mvp)
+- [🚧 Limitações atuais / melhorias futuras](#-limitações-atuais--melhorias-futuras)
+- [📘 Aprendizados do projeto](#-aprendizados-do-projeto)
+- [🏦 Contexto de uso](#-contexto-de-uso)
+- [👤 Autor](#-autor)
+- [📄 Licença](#-licença)
 
 ---
 
-## Visão Geral
+## 📌 Sobre o projeto
 
-O projeto foi desenvolvido como um **MVP** para demonstrar uma solução de apoio à **logística reversa de ativos físicos de TI** dentro de uma organização.
+Este projeto foi desenvolvido como um **MVP** para demonstrar uma solução de apoio à **logística reversa de ativos de TI** dentro de uma organização.
 
 A proposta é estruturar o fluxo de equipamentos corporativos desde o uso pelo colaborador até sua destinação final, permitindo:
 
@@ -38,7 +44,7 @@ A proposta é estruturar o fluxo de equipamentos corporativos desde o uso pelo c
 
 ---
 
-## Problema que o projeto busca resolver
+## 🚨 Problema que o projeto busca resolver
 
 Em grandes organizações, como bancos e empresas com parque tecnológico amplo, o processo de recolhimento e destinação de equipamentos pode ocorrer de forma descentralizada, pouco rastreável e excessivamente manual.
 
@@ -53,89 +59,80 @@ Isso pode gerar problemas como:
 
 ---
 
-## Solução proposta
+## ✅ Solução proposta
 
-O sistema organiza o fluxo de logística reversa em etapas, permitindo que o processo seja acompanhado de forma estruturada, com regras de negócio bem definidas e atualização automática do estado do equipamento.
+O sistema organiza o fluxo de logística reversa em etapas, permitindo que o processo seja acompanhado de forma estruturada.
 
 ### Fluxo principal
 
-1. O equipamento é cadastrado no sistema
-2. Um recolhimento pode ser solicitado para o equipamento
-3. O equipamento passa por avaliação técnica
-4. O sistema calcula automaticamente a destinação final
-5. A mudança de status é registrada em histórico
-6. O processo pode ser consultado visualmente no frontend
+1. O equipamento é cadastrado no sistema  
+2. Um recolhimento pode ser solicitado para o equipamento  
+3. O equipamento passa por avaliação técnica  
+4. O sistema calcula automaticamente a destinação final  
+5. A mudança de status é registrada em histórico  
+6. O processo pode ser consultado visualmente no frontend  
 
 ---
 
-## Funcionalidades implementadas
+## 🧩 Funcionalidades implementadas
 
-### 1. Autenticação
+### Autenticação
 - login com JWT
 - rotas protegidas
 - persistência de sessão no frontend
 - logout funcional
 
-### 2. Gestão de equipamentos
+### Gestão de equipamentos
 - cadastro de equipamento
 - listagem de equipamentos
 - atualização de equipamento
 - vínculo opcional com usuário responsável
 
-### 3. Solicitação de recolhimento
+### Solicitação de recolhimento
 - criação de solicitação
 - listagem de solicitações
 - cancelamento de solicitação pendente
 - atualização do status do equipamento
 
-### 4. Avaliação técnica
+### Avaliação técnica
 - registro de avaliação técnica
 - vínculo com técnico autenticado
 - listagem de avaliações por equipamento
 - suporte a múltiplas avaliações
 
-### 5. Motor de destinação
+### Motor de destinação
 - cálculo de idade do equipamento
 - cálculo de validade
 - cálculo de valor residual com depreciação linear
 - decisão automática da destinação final
 
-### 6. Histórico de status
+### Histórico de status
 - registro das transições de status
 - consulta do histórico por equipamento
 - tela de histórico no frontend
 
 ---
 
-## Regras de negócio implementadas
+## 📐 Regras de negócio implementadas
 
-### RN01 — Depreciação
+### Depreciação
 - depreciação linear de 20% ao ano
 - após 5 anos, o valor residual é considerado zero
 
-### RN02 — Validade
+### Validade
 - equipamento com menos de 5 anos completos é considerado válido
 - equipamento com 5 anos ou mais é considerado vencido
 
-### RN03 — Lógica de destinação
+### Lógica de destinação
 - funcionando + válido → venda interna
 - funcionando + vencido → doação
 - não funciona + válido + recuperável → suporte técnico
 - irrecuperável → reciclagem
 - não funciona + vencido → reciclagem
 
-### RN04 — Cancelamento
-- o usuário só pode cancelar solicitação enquanto o status for `PENDENTE`
-
-### RN05 — Solicitação única pendente
-- só pode existir uma solicitação pendente por equipamento
-
-### RN06 — Fonte oficial do estado
-- o sistema usa `statusAtual` em `Equipamento` como fonte oficial do estado do equipamento
-
 ---
 
-## Status do equipamento
+## 🔄 Status do equipamento
 
 O sistema trabalha com os seguintes status:
 
@@ -150,7 +147,7 @@ O sistema trabalha com os seguintes status:
 
 ---
 
-## Arquitetura do projeto
+## 🏗️ Arquitetura do projeto
 
 O projeto está organizado em formato de **monorepo**, com separação entre backend e frontend.
 
@@ -161,9 +158,27 @@ logistica-reversa2
 │  └─ frontend
 ````
 
+### Backend
+
+Arquitetura em camadas:
+
+```text
+Controller
+↓
+Service
+↓
+Repository
+↓
+Database
+```
+
+### Frontend
+
+Organizado em páginas, serviços, contexto de autenticação e rotas protegidas.
+
 ---
 
-## Stack tecnológica
+## 🛠️ Stack tecnológica
 
 ### Backend
 
@@ -187,49 +202,20 @@ logistica-reversa2
 ### Banco de dados
 
 * PostgreSQL
-* database: `logistica_reversa`
-
-### Ambiente
-
-* Ubuntu 24.04
 
 ---
 
-## Arquitetura do backend
-
-O backend segue uma arquitetura em camadas:
+## 📂 Estrutura principal do backend
 
 ```text
-Controller
-↓
-Service
-↓
-Repository
-↓
-Database
+com.logistica.backend
+├─ config
+├─ controller
+├─ domain
+├─ repository
+├─ security
+└─ service
 ```
-
----
-
-## Autenticação
-
-O sistema já possui autenticação com:
-
-* JWT
-* Spring Security
-* login funcional
-* contexto autenticado no frontend
-* rotas protegidas
-
-### Fluxo de autenticação
-
-```text
-Frontend → /auth/login → Backend → JWT → token salvo no frontend → acesso protegido
-```
-
----
-
-## Domínio implementado
 
 ### Entidades principais
 
@@ -239,182 +225,214 @@ Frontend → /auth/login → Backend → JWT → token salvo no frontend → ace
 * `AvaliacaoTecnica`
 * `HistoricoStatus`
 
-### Relacionamentos principais
+---
 
-* `Usuario` 1:N `Equipamento`
-* `Equipamento` 1:N `SolicitacaoRecolhimento`
-* `Equipamento` 1:N `AvaliacaoTecnica`
-* `Equipamento` 1:N `HistoricoStatus`
+## 💻 Estrutura principal do frontend
 
-### Observações importantes do domínio
+```text
+src
+├─ contexts
+├─ pages
+├─ routes
+├─ services
+├─ App.tsx
+├─ main.tsx
+└─ index.css
+```
 
-* o vínculo de `Equipamento` com `Usuario` é opcional
-* a regra de “apenas uma solicitação pendente por equipamento” é tratada na camada de serviço
-* o sistema utiliza `statusAtual` em `Equipamento` como fonte oficial do estado do equipamento
+### Páginas implementadas
+
+* `Login`
+* `Dashboard`
+* `EquipamentosList`
+* `EquipamentoForm`
+* `RecolhimentosList`
+* `AvaliacaoForm`
+* `AvaliacoesList`
+* `HistoricoEquipamento`
 
 ---
 
-## Estrutura de diretórios
+## ⚙️ Configuração do ambiente
 
 ### Backend
 
-```text
-com.logistica.backend
-├── BackendApplication.java
-├── config
-│   ├── AdminInitializer.java
-│   └── SecurityConfig.java
-├── controller
-│   ├── auth
-│   │   ├── AuthController.java
-│   │   └── dto
-│   ├── avaliacao
-│   │   ├── AvaliacaoTecnicaController.java
-│   │   └── dto
-│   ├── equipamento
-│   │   ├── dto
-│   │   └── EquipamentoController.java
-│   ├── historico
-│   │   ├── dto
-│   │   └── HistoricoStatusController.java
-│   ├── recolhimento
-│   │   ├── dto
-│   │   └── SolicitacaoRecolhimentoController.java
-│   └── TestController.java
-├── domain
-│   ├── avaliacao
-│   │   └── AvaliacaoTecnica.java
-│   ├── equipamento
-│   │   ├── Equipamento.java
-│   │   └── StatusEquipamento.java
-│   ├── historico
-│   │   └── HistoricoStatus.java
-│   ├── recolhimento
-│   │   ├── SolicitacaoRecolhimento.java
-│   │   └── StatusSolicitacaoRecolhimento.java
-│   └── usuario
-│       ├── UserRole.java
-│       └── Usuario.java
-├── repository
-│   ├── AvaliacaoTecnicaRepository.java
-│   ├── EquipamentoRepository.java
-│   ├── HistoricoStatusRepository.java
-│   ├── SolicitacaoRecolhimentoRepository.java
-│   └── UsuarioRepository.java
-├── security
-│   ├── AuthenticatedUser.java
-│   └── JwtAuthenticationFilter.java
-└── service
-    ├── auth
-    │   ├── AuthService.java
-    │   └── JwtService.java
-    ├── avaliacao
-    │   └── AvaliacaoTecnicaService.java
-    ├── destinacao
-    │   └── DestinacaoService.java
-    ├── equipamento
-    │   └── EquipamentoService.java
-    ├── historico
-    │   └── HistoricoStatusService.java
-    ├── recolhimento
-    │   └── SolicitacaoRecolhimentoService.java
-    └── usuario
-        └── CustomUserDetailsService.java
+Arquivo principal de configuração:
 
+```text
+apps/backend/src/main/resources/application.properties
 ```
 
-### Frontend
+Exemplo:
 
-```text
-frontend
-├── dist
-│   ├── assets
-│   ├── index.html
-│   └── vite.svg
-├── eslint.config.js
-├── index.html
-├── node_modules
-│   ├── ...
-├── package.json
-├── package-lock.json
-├── public
-│   └── vite.svg
-├── README.md
-├── src
-│   ├── api
-│   ├── App.css
-│   ├── App.tsx
-│   ├── assets
-│   │   └── react.svg
-│   ├── components
-│   ├── contexts
-│   │   ├── AuthContext.ts
-│   │   ├── AuthProvider.tsx
-│   │   └── useAuth.ts
-│   ├── index.css
-│   ├── main.tsx
-│   ├── pages
-│   │   ├── AvaliacaoForm.tsx
-│   │   ├── AvaliacoesList.tsx
-│   │   ├── Dashboard.tsx
-│   │   ├── EquipamentoForm.tsx
-│   │   ├── EquipamentosList.tsx
-│   │   ├── HistoricoEquipamento.tsx
-│   │   ├── Login.tsx
-│   │   └── RecolhimentosList.tsx
-│   ├── routes
-│   │   └── ProtectedRoute.tsx
-│   └── services
-│       ├── api.ts
-│       ├── avaliacoes.ts
-│       ├── equipamentos.ts
-│       ├── historicos.ts
-│       └── recolhimentos.ts
-├── tsconfig.app.json
-├── tsconfig.json
-├── tsconfig.node.json
-└── vite.config.ts
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/logistica_reversa
+spring.datasource.username=logistica
+spring.datasource.password=logistica123
+
+spring.jpa.hibernate.ddl-auto=update
+spring.flyway.enabled=false
+
+server.port=8080
+
+app.jwt.secret=seu-segredo-aqui
+app.jwt.expiration-seconds=28800
+```
+
+### Usuário administrador inicial
+
+Criado automaticamente por `AdminInitializer`.
+
+Credenciais padrão:
+
+* matrícula: `0000001`
+* senha: `admin123`
+
+---
+
+## ▶️ Como executar o projeto
+
+### Pré-requisitos
+
+* Java 21
+* Node.js
+* npm
+* PostgreSQL
+* Git
+
+---
+
+### 1. Clonar o repositório
+
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd logistica-reversa2
 ```
 
 ---
 
-## Estado atual do projeto
+### 2. Criar o banco de dados
 
-Atualmente, o sistema já contempla:
+```sql
+CREATE DATABASE logistica_reversa;
+```
 
-* autenticação funcional
-* gestão de equipamentos
-* fluxo de solicitação de recolhimento
-* avaliação técnica
-* motor automático de destinação
-* histórico de mudanças de status
-* frontend com telas para operação e consulta
-
-Trata-se de um MVP funcional com foco em demonstrar a viabilidade da solução, sua estrutura técnica e seu potencial de aplicação em ambiente corporativo.
+Garanta que o usuário e senha configurados no `application.properties` existam no PostgreSQL.
 
 ---
 
-## Objetivo do MVP
+### 3. Executar o backend
 
-Demonstrar, de forma prática, como um sistema pode apoiar a logística reversa de equipamentos corporativos, aumentando:
+```bash
+cd apps/backend
+./mvnw spring-boot:run
+```
 
-* a rastreabilidade do processo
-* a eficiência operacional
-* a governança sobre ativos
-* o reaproveitamento de equipamentos
-* a aderência a práticas sustentáveis
+No Windows:
+
+```bash
+mvnw.cmd spring-boot:run
+```
+
+Backend disponível em:
+
+```text
+http://localhost:8080
+```
 
 ---
 
-## Observação
+### 4. Executar o frontend
 
-Este projeto foi construído com foco em demonstração funcional, validação da ideia e evolução incremental. Novas funcionalidades podem ser adicionadas futuramente, como:
+```bash
+cd apps/frontend
+npm install
+npm run dev
+```
 
-* dashboard gerencial com indicadores
-* filtros e relatórios avançados
-* trilha de auditoria mais completa
-* notificações
-* perfis de acesso mais detalhados
+Frontend disponível em:
+
+```text
+http://localhost:5173
+```
+
+---
+
+## 🧪 Fluxo básico para testar o sistema
+
+1. Faça login com o usuário administrador
+2. Cadastre um equipamento
+3. Solicite recolhimento do equipamento
+4. Registre uma avaliação técnica
+5. Verifique a destinação automática do equipamento
+6. Consulte o histórico de mudanças de status
+7. Consulte a lista de recolhimentos
+
+---
+
+## 🌟 Pontos de destaque do MVP
+
+* fluxo principal funcional de ponta a ponta
+* autenticação com JWT
+* lógica de negócio de destinação automatizada
+* histórico de status auditável
+* separação entre frontend e backend
+* base preparada para evolução gerencial
+
+---
+
+## 🚧 Limitações atuais / melhorias futuras
+
+O projeto foi construído como MVP e ainda possui espaço para evolução.
+
+### Melhorias futuras previstas
+
+* dashboard gerencial com indicadores agregados
+* filtros avançados por status e perfil
+* separação mais clara entre visão de usuário e visão administrativa
+* publicação completa via web
+* melhorias de segurança e autorização
+* testes automatizados
+* adoção de Flyway para migrações
+* indicadores financeiros e ambientais
 * integração com sistemas corporativos
 
 ---
+
+## 📘 Aprendizados do projeto
+
+Durante a construção do MVP, os principais aprendizados envolveram:
+
+* modelagem incremental de domínio
+* alinhamento entre regra de negócio, banco e frontend
+* importância da rastreabilidade no processo
+* necessidade de validar o fluxo real do usuário
+* valor de evoluir o sistema em pequenas etapas funcionais
+
+---
+
+## 🏦 Contexto de uso
+
+Este projeto foi desenvolvido como solução demonstrativa para um cenário de inovação corporativa, com foco em:
+
+* governança de ativos
+* reaproveitamento de equipamentos
+* sustentabilidade
+* rastreabilidade
+* apoio à decisão
+
+---
+
+## 👤 Autor
+
+**Igor Rodrigues**
+
+---
+
+## 📄 Licença
+
+MIT License
+
+---
+
+```
