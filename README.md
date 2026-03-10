@@ -1,5 +1,3 @@
-````markdown
-````
 # ♻️ Logística Reversa de Equipamentos Corporativos
 
 Sistema web para gestão do ciclo de vida de equipamentos de informática em ambiente corporativo, com foco em **recolhimento**, **avaliação técnica**, **destinação final** e **rastreabilidade do processo**.
@@ -438,6 +436,3 @@ Este projeto foi desenvolvido como solução demonstrativa para um cenário de i
 MIT License
 
 ---
-````
-
-```
